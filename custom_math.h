@@ -22,41 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef __FILES_H__
-#define __FILES_H__
+#ifndef __CUSTOM_MATH_H__
+#define __CUSTOM_MATH_H__
 
-#include <string>
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-
-typedef char byte;
-
-// Raw files basically are implemented as byte arrays with a particular width, height and depth
-// NOTE: assuming 8-bits for raw file byte. Change accordinly for different filetypes
-class RawFile
+class Vector3
 {
 public:
-	RawFile() = default;
-	RawFile(unsigned int width, unsigned int height, unsigned int depth);
-	~RawFile();
+	Vector3() = default;
+	Vector3(float x, float y, float z);
+	Vector3(const Vector3& V);
+	~Vector3() = default;
 
-	byte* data;
-	float* scalardata;							// we can normalize the values of the entire raw file into a [0-1] range
-	unsigned int width, height, depth;
-	unsigned int totalSize = 0;
-	void normalize();
+
+
+	float x, y, z;
 };
 
-// Implements a bunch of methods to load different types of volumetric files
-class FileLoader
-{
-public:
-	FileLoader() = default;
-	~FileLoader() = default;
 
-	void loadFromRaw(const std::string& filename, RawFile& rf) const;
-};
 
 
 #endif

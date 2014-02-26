@@ -21,42 +21,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
-#ifndef __FILES_H__
-#define __FILES_H__
+#ifndef __UTIL_H__
+#define __UTIL_H__
 
 #include <string>
-#include <algorithm>
-#include <fstream>
-#include <iostream>
 
-typedef char byte;
-
-// Raw files basically are implemented as byte arrays with a particular width, height and depth
-// NOTE: assuming 8-bits for raw file byte. Change accordinly for different filetypes
-class RawFile
+class PpmFileWriter
 {
 public:
-	RawFile() = default;
-	RawFile(unsigned int width, unsigned int height, unsigned int depth);
-	~RawFile();
+	PpmFileWriter() = default;
+	~PpmFileWriter() = default;
 
-	byte* data;
-	float* scalardata;							// we can normalize the values of the entire raw file into a [0-1] range
-	unsigned int width, height, depth;
-	unsigned int totalSize = 0;
-	void normalize();
+	void writePpmFile(const std::string& opfile, char* rgb, unsigned int width, unsigned int height);
 };
-
-// Implements a bunch of methods to load different types of volumetric files
-class FileLoader
-{
-public:
-	FileLoader() = default;
-	~FileLoader() = default;
-
-	void loadFromRaw(const std::string& filename, RawFile& rf) const;
-};
-
 
 #endif

@@ -25,20 +25,53 @@ SOFTWARE.
 #ifndef __CUSTOM_MATH_H__
 #define __CUSTOM_MATH_H__
 
+#include <cmath>
+
 class Vector3
 {
 public:
 	Vector3() = default;
+	Vector3(float a);
 	Vector3(float x, float y, float z);
 	Vector3(const Vector3& V);
 	~Vector3() = default;
 
+	Vector3 operator- (void) const;
+	void operator= (const Vector3& V);
 
+	Vector3 operator+ (const Vector3& V) const;
+	Vector3 operator- (const Vector3& V) const;
+	Vector3 operator* (float k) const;
+	Vector3 operator/ (float k) const;
 
+	Vector3& operator+= (const Vector3& V);
+	Vector3& operator-= (const Vector3& V);
+	Vector3& operator/= (float k);
+	Vector3& operator*= (float k);
+
+	friend Vector3 operator* (float k, const Vector3 &V) {
+		return V * k;
+	}
+	friend Vector3 operator/ (float k, const Vector3& V) {
+		return Vector3(k / V.x, k / V.y, k / V.z);
+	}
+
+	float length() const;
+	float length2() const;
+	
 	float x, y, z;
 };
 
+inline float dot(const Vector3& A, const Vector3& B) {
+	return A.x*B.x + A.y*B.y + A.z*B.z;
+}
 
+inline Vector3 cross(const Vector3& A, const Vector3& B) {
+	return Vector3(A.y*B.z - A.z*B.y,
+		A.z*B.x - A.x*B.z,
+		A.x*B.y - A.y*B.x
+		);
+}
 
 
 #endif

@@ -30,7 +30,12 @@ SOFTWARE.
 #include <algorithm>
 #include <numeric>
 
+#include "volumeraycaster.h"
+#include "files.h"
+#include "util.h"
 
+// NOTE: data path is hardcoded in application. You can write code to override this behaviour.
+const std::string datapath = "..\\data\\";
 
 
 #endif

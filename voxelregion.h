@@ -21,26 +21,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include "util.h"
+#ifndef __VOXEL_REGION_H__
+#define __VOXEL_REGION_H__
 
-// dump a basic ppm file
-// NOTE: it is assumed that input file to be written is scaled to [0-255] range before being written. 
-//       hence its the callers responsibility to do so.
-void PpmFileWriter::writePpmFile(const std::string& opfile, char* rgb, unsigned int width, unsigned int height) {
-	std::ofstream output(opfile.c_str(), std::ios::out|std::ios::binary);
-	if (!output.bad()) {
-		// write the header
-		output << "P6\n";
-		output << width << ' ' << height << "\n";
-		output << "255\n";
-		for (unsigned int y = 0; y < height; y++) {
-			for (unsigned int x = 0; x < width; x++) {
-				unsigned int idx = y * width + x;		// find actual triplet index
-				output << rgb[3 * idx] << rgb[3 * idx + 1] << rgb[3 * idx + 2];		// r,g,b values
-			}
-		}
-	}
-	else {
-		std::cerr << "Invalid output file.\n Did you forget to use .ppm extension?\n";
-	}
-}
+#include <vector>
+#include "custom_math.h"
+#include "geometry.h"
+#include "voxel.h"
+#include "files.h"
+
+// Voxel region encompasses all the voxels that are within the scene
+class VoxelRegion
+{
+public:
+	VoxelRegion() = default;
+	VoxelRegion(const RawFile& rf);
+	
+
+	// function members
+	float interpolate();
+	bool isOut(const Vector3& V);				// checks if a location is out of the voxel region
+	
+	// data
+	std::vector<Voxel> voxels;
+	unsigned int width, height, depth;
+};
+
+
+#endif

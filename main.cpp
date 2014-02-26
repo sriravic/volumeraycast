@@ -23,3 +23,16 @@ SOFTWARE.
 */
 
 #include "main.h"
+
+int main(int argc, char** argv) {
+	std::cout << "Volume Ray Casting Application Version 1.0\n Srinath Ravichandran 2014\n";
+
+	//hard coded input file
+	std::string ipfile = "bonsai.raw";
+	RawFile rf(256,256,256);
+	FileLoader fl;
+	fl.loadFromRaw(datapath + ipfile, rf);
+	return 0;
+}
+
+

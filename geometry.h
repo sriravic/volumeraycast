@@ -27,12 +27,39 @@ SOFTWARE.
 
 class Ray
 {
+public:
+	Ray() = default;
+	Ray(const Vector3& origin, const Vector3& direction, float tmin = 0.0f, float tmax = FLT_MAX) {
+		this->origin = origin;
+		this->direction = direction;
+		this->tmax = tmax;
+		this->tmin = tmin;
+	};
+	Ray(const Ray& R);
+
+	Vector3 operator() (float t) const {
+		return origin + direction * t;
+	}
+
+	Vector3 origin, direction;
+	float tmin, tmax;
 
 };
 
-class BBox
+class Bbox
 {
+public:
+	Bbox() :bmin(FLT_MAX), bmax(-FLT_MAX) {}
+	Bbox(const Vector3& min, const Vector3& max) :bmin(min), bmax(max){}
+	Bbox(const Bbox& B) { bmin = B.bmin; bmax = B.bmax; }
 
+	// ray-box intersection
+	bool intersect(const Ray& R) {
+		Vector3 inv_dir = 1.0f / R.direction;
+		
+	}
+	
+	Vector3 bmin, bmax;
 };
 
 

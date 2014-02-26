@@ -25,6 +25,8 @@ SOFTWARE.
 #define __UTIL_H__
 
 #include <string>
+#include <fstream>
+#include <iostream>
 
 class PpmFileWriter
 {
@@ -34,5 +36,12 @@ public:
 
 	void writePpmFile(const std::string& opfile, char* rgb, unsigned int width, unsigned int height);
 };
+
+
+// some util functions
+inline float lerp(float val1, float val2, float t) { return val1 + t*(val2 - val1); }
+
+
+
 
 #endif

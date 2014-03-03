@@ -32,7 +32,7 @@ Voxel is the single cell that stores whatever values we'd like to store within t
 class Voxel
 {
 public:
-	Voxel();
+	Voxel() = default;
 	Voxel(float x, float y, float z);
 	Voxel(const Vector3& V);
 	Voxel(const Voxel& V);

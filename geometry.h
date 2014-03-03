@@ -25,6 +25,8 @@ SOFTWARE.
 #ifndef __GEOMETRY_H__
 #define __GEOMETRY_H__
 
+#include <algorithm>
+
 class Ray
 {
 public:
@@ -54,15 +56,26 @@ public:
 	Bbox(const Bbox& B) { bmin = B.bmin; bmax = B.bmax; }
 
 	// ray-box intersection
-	bool intersect(const Ray& R) {
+	bool intersect(const Ray& R, float& thit) {
 		Vector3 inv_dir = 1.0f / R.direction;
+		Vector3 minTs = (bmin - R.origin) * inv_dir;
+		Vector3 maxTs = (bmax - R.origin) * inv_dir;
 		
+		float nearT = std::min(minTs.x, maxTs.x);
+		nearT = std::max(nearT, std::min(minTs.y, maxTs.y));
+		nearT = std::max(nearT, std::min(minTs.z, maxTs.z));
+
+		float farT = std::max(minTs.x, maxTs.x);
+		farT = std::min(farT, std::max(minTs.y, maxTs.y));
+		farT = std::min(farT, std::max(minTs.z, maxTs.z));
+		
+		// update ray intersection parameter
+		thit = nearT;
+		// check the correct conditions for intersection
+		return nearT <= farT && 0 < farT;
 	}
 	
 	Vector3 bmin, bmax;
 };
-
-
-
 
 #endif

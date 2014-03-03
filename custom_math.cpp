@@ -41,6 +41,8 @@ Vector3 Vector3::operator/ (float k) const {
 	float invk = 1.0f / k;
 	return *this * invk;
 }
+Vector3 Vector3::operator* (const Vector3& V) const { return Vector3(x * V.x, y * V.y, z * V.z); }
+Vector3 Vector3::operator/ (const Vector3& V) const { return Vector3(x / V.x, y / V.y, z / V.z); }
 
 Vector3& Vector3::operator+= (const Vector3& V) { 
 	x += V.x; y += V.y; z += V.z;

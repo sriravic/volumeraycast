@@ -24,6 +24,10 @@ SOFTWARE.
 
 #include "main.h"
 
+// image params
+const int width = 800;
+const int height = 600;
+
 int main(int argc, char** argv) {
 	std::cout << "Volume Ray Casting Application Version 1.0\n Srinath Ravichandran 2014\n";
 
@@ -32,6 +36,22 @@ int main(int argc, char** argv) {
 	RawFile rf(256,256,256);
 	FileLoader fl;
 	fl.loadFromRaw(datapath + ipfile, rf);
+
+	// create pixelbuffer
+	char* pixels = new char[width * height * 3];		// rgb triplets
+	memset(pixels, 0, sizeof(char)* width * height * 3);
+	
+	// create camera 
+
+	// create volume ray caster
+
+	// visualize
+	
+	// write output file
+	PpmFileWriter pfw;
+	pfw.writePpmFile("output.ppm", pixels, width, height);
+
+	delete[] pixels;
 	return 0;
 }
 

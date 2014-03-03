@@ -64,15 +64,41 @@ float VoxelRegion::interpolate(const Vector3& V) const {
 	unsigned int v07 = getCell(x, y + 1, z + 1);
 
 	// linearly interpolate with all the 8 corners
-	// return the value
+	float w00 = (V - voxels[v00].location).length();
+	float w01 = (V - voxels[v01].location).length();
+	float w02 = (V - voxels[v02].location).length();
+	float w03 = (V - voxels[v03].location).length();
+	float w04 = (V - voxels[v04].location).length();
+	float w05 = (V - voxels[v05].location).length();
+	float w06 = (V - voxels[v06].location).length();
+	float w07 = (V - voxels[v07].location).length();
+	float totalWeight = w00 + w01 + w02 + w03 + w04 + w05 + w06 + w07;
+	// normalize
+	w00 /= totalWeight;
+	w01 /= totalWeight;
+	w02 /= totalWeight;
+	w03 /= totalWeight;
+	w04 /= totalWeight;
+	w05 /= totalWeight;
+	w06 /= totalWeight;
+	w07 /= totalWeight;
 
+	// return the value
+	return voxels[v00].scalardata * w00 + voxels[v01].scalardata * w01 + voxels[v02].scalardata * w02 +
+		voxels[v03].scalardata * w03 + voxels[v04].scalardata * w04 + voxels[v05].scalardata * w05 +
+		voxels[v06].scalardata * w06 + voxels[v07].scalardata * w07;
 }
 
+// Its upto getCell to check the boundaries and give the correct value
+// callers don't need to validate boundary conditions
 unsigned int VoxelRegion::getCell(unsigned int x, unsigned int y, unsigned int z) const { 
-	if (x < )
+	if (x < 0) x = 0; if (y < 0) y = 0; if (z < 0) z = 0;
+	if (x > width) x = width; if (y > height) y = height; if (z > depth) z = depth;
 	return x + y * width + z * width * height; 
 }
 
+// NOTE: not complete function
+// to be completed. Have to check the conditions correctly before updating this function
 bool VoxelRegion::isOut(const Vector3& V) const {
-	
+	return true;
 }

@@ -27,6 +27,8 @@ SOFTWARE.
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "custom_math.h"
+#include "geometry.h"
 
 class PpmFileWriter
 {
@@ -35,6 +37,36 @@ public:
 	~PpmFileWriter() = default;
 
 	void writePpmFile(const std::string& opfile, char* rgb, unsigned int width, unsigned int height);
+};
+
+class Camera
+{
+public:
+	unsigned int width, height;		// film width and height
+	Vector3             position;	// camera position
+
+	virtual Ray generateRay(unsigned int x, unsigned int y) = 0;		// generate ray for coords on image plane
+};
+
+// perspective projection
+class PerspectiveCamera : public Camera
+{
+public:
+	Vector3 up, lookat;				// required for projective camera
+	virtual Ray generateRay(unsigned int x, unsigned int y);
+};
+
+// parallel projection.
+// simpler camera model
+class OrthographicCamera : public Camera
+{
+public:
+	OrthographicCamera() = default;
+	OrthographicCamera(const Vector3& position, unsigned int width, unsigned int height);
+	OrthographicCamera(const OrthographicCamera& C);
+
+	virtual Ray generateRay(unsigned int x, unsigned int y);
+
 };
 
 

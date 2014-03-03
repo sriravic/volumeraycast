@@ -21,34 +21,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef __VOXEL_REGION_H__
-#define __VOXEL_REGION_H__
+#include "volumeraycaster.h"
 
-#include <vector>
-#include "custom_math.h"
-#include "geometry.h"
-#include "voxel.h"
-#include "files.h"
-
-// Voxel region encompasses all the voxels that are within the scene
-class VoxelRegion
-{
-public:
-	VoxelRegion() = default;
-	VoxelRegion(const RawFile& rf);
-	~VoxelRegion() = default;
-	
-	// function members
-	float interpolate(const Vector3& V) const;		// given a point, we interpolate the value
-	void prepare();
-	bool isOut(const Vector3& V) const;				// checks if a location is out of the voxel region
-	unsigned int getCell(unsigned int x, unsigned int y, unsigned int z) const;
-
-	// data
-	std::vector<Voxel> voxels;
-	const float* const data;					// we have an immutable pointer to the original data. We cant change anything.
-	unsigned int width, height, depth;
-};
-
-
-#endif
